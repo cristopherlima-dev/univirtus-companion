@@ -7,7 +7,7 @@ App PWA mobile-first para acompanhar o calendário acadêmico, matérias da fase
 ## Stack
 
 - Next.js 15 (App Router) + TypeScript
-- Tailwind CSS + shadcn/ui
+- Tailwind CSS v4 + shadcn/ui (preset Nova, base Radix)
 - Dexie.js (IndexedDB) — storage offline-first, sem backend no MVP
 - Serwist — service worker / PWA
 - Vercel — deploy
@@ -22,8 +22,8 @@ Cada funcionalidade vira **um chat dedicado** no Claude (Project com este repo c
 
 | # | Chat | Status | Notas |
 |---|------|--------|-------|
-| 1 | Setup do projeto + PWA shell | ⏳ próximo | Next.js, Tailwind, shadcn/ui, Serwist, manifest, deploy inicial |
-| 2 | Modelagem de dados + storage local | ⏳ | Schema Dexie, hooks de acesso, seed da fase B 2026 |
+| 1 | Setup do projeto + PWA shell | ✅ | Next 15 + TS + Tailwind v4 + shadcn (Nova/Radix) + Serwist + manifest + bottom nav. Deploy na Vercel ok, PWA instalável. |
+| 2 | Modelagem de dados + storage local | ⏳ próximo | Schema Dexie, hooks de acesso, seed da fase B 2026 |
 | 3 | Onboarding + tela de Disciplinas | ⏳ | Cadastro curso → fase → disciplinas → temas |
 | 4 | **Checklist de aulas** (âncora) | ⏳ | Detalhe da disciplina, marcar temas como vistos, progresso |
 | 5 | Avaliações e prazos | ⏳ | CRUD APOL 1/2, Prova, Trabalhos, urgência calculada |
@@ -42,6 +42,7 @@ Cada funcionalidade vira **um chat dedicado** no Claude (Project com este repo c
 - **2026-05-20** — Escopo: só fase atual. Sem histórico.
 - **2026-05-20** — Sem scraping/automação do Univirtus. Entrada manual + import de .ics no Chat 7.
 - **2026-05-20** — Removido Simulador de notas do escopo. Funcionalidades-âncora são alertas de prazos e checklist de aulas.
+- **2026-05-20** — Chat 1 concluído. Build com `next build` (sem Turbopack) porque `@serwist/next` ainda não suporta Turbopack. Em dev, Serwist fica desativado (`disable: process.env.NODE_ENV === "development"`). Ícones placeholder "UC" em `public/icons/` — substituir por arte definitiva no Chat 9.
 
 ## Dados reais da fase atual (para seed no Chat 2)
 
