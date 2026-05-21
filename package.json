@@ -2,15 +2,18 @@
   "name": "univirtus-companion",
   "version": "0.1.0",
   "private": true,
-"scripts": {
-  "dev": "next dev --turbopack",
-  "build": "next build",
-  "start": "next start",
-  "lint": "eslint"
-},
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.2.1",
+    "dexie": "^4.4.2",
+    "dexie-react-hooks": "^4.4.0",
     "lucide-react": "^1.16.0",
     "next": "15.5.18",
     "radix-ui": "^1.4.3",
