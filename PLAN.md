@@ -23,10 +23,10 @@ Cada funcionalidade vira **um chat dedicado** no Claude (Project com este repo c
 | # | Chat | Status | Notas |
 |---|------|--------|-------|
 | 1 | Setup do projeto + PWA shell | ✅ | Next 15 + TS + Tailwind v4 + shadcn (Nova/Radix) + Serwist + manifest + bottom nav. Deploy na Vercel ok, PWA instalável. |
-| 2 | Modelagem de dados + storage local | ⏳ próximo | Schema Dexie, hooks de acesso, seed da fase B 2026 |
-| 3 | Onboarding + tela de Disciplinas | ⏳ | Cadastro curso → fase → disciplinas → temas |
+| 2 | Modelagem de dados + storage local | ✅ | Dexie v1 com 6 tabelas (cursos, fases, disciplinas, temas, avaliacoes, eventos). Hooks com useLiveQuery. Seed idempotente da fase B I 2026 via `DbBootstrap` no layout. Smoke test em `/`. |
+| 3 | Onboarding + tela de Disciplinas | ⏳ próximo | Cadastro curso → fase → disciplinas → temas. Remover smoke test de `/` no caminho. |
 | 4 | **Checklist de aulas** (âncora) | ⏳ | Detalhe da disciplina, marcar temas como vistos, progresso |
-| 5 | Avaliações e prazos | ⏳ | CRUD APOL 1/2, Prova, Trabalhos, urgência calculada |
+| 5 | Avaliações e prazos | ⏳ | CRUD APOL 1/2, Prova, Trabalhos, urgência calculada. Ajustar datas placeholders do seed. |
 | 6 | Dashboard "Hoje" | ⏳ | Prazos da semana, continue de onde parou, resumo |
 | 7 | Calendário acadêmico | ⏳ | Vista mensal + lista, import de .ics |
 | 8 | **Alertas e notificações** (âncora) | ⏳ | Web Push, lembretes configuráveis (3d/1d/no dia), badge de prazos no app |
@@ -43,6 +43,7 @@ Cada funcionalidade vira **um chat dedicado** no Claude (Project com este repo c
 - **2026-05-20** — Sem scraping/automação do Univirtus. Entrada manual + import de .ics no Chat 7.
 - **2026-05-20** — Removido Simulador de notas do escopo. Funcionalidades-âncora são alertas de prazos e checklist de aulas.
 - **2026-05-20** — Chat 1 concluído. Build com `next build` (sem Turbopack) porque `@serwist/next` ainda não suporta Turbopack. Em dev, Serwist fica desativado (`disable: process.env.NODE_ENV === "development"`). Ícones placeholder "UC" em `public/icons/` — substituir por arte definitiva no Chat 9.
+- **2026-05-21** — Chat 2 concluído. Schema Dexie versão 1 com 6 tabelas. `Tema` unificado com discriminador `kind` (conteudo / na_pratica / finalizando / videoaula_completa / slides / livro / plano_ensino) — checklist do Chat 4 itera num único loop. `Avaliacao.concluida` separado de `nota` (marcar feito ≠ ter nota). `Fase.ativa` fora do índice porque IndexedDB não aceita boolean como key (continua no value, lido via `.filter()`). Datas das avaliações no seed são placeholders — ajustar no Chat 5 com cronograma real. Seed dispara via `DbBootstrap` (client) no `layout.tsx`, idempotente por `cursos.count()`. Para resetar: DevTools → Application → IndexedDB → delete `univirtus-companion`.
 
 ## Dados reais da fase atual (para seed no Chat 2)
 
