@@ -61,3 +61,42 @@ export function useEventos() {
     [],
   );
 }
+
+/**
+ * Progresso agregado de todas as disciplinas de uma fase.
+ * Retorna { [disciplinaId]: { total, concluidos } }.
+ *
+ * Feito em uma query só (anyOf) pra não disparar N hooks em loop
+ * dentro do <DisciplinaCard/>. Reativo via useLiveQuery normalmente.
+ */
+export function useProgressoTemas(faseId: string | undefined) {
+  return useLiveQuery(
+    async () => {
+      if (!faseId) return {};
+
+      const disciplinas = await db.disciplinas
+        .where("faseId").equals(faseId)
+        .toArray();
+
+      const ids = disciplinas.map((d) => d.id);
+      if (ids.length === 0) return {};
+
+      const temas = await db.temas
+        .where("disciplinaId").anyOf(ids)
+        .toArray();
+
+      const result: Record<string, { total: number; concluidos: number }> = {};
+      for (const id of ids) {
+        result[id] = { total: 0, concluidos: 0 };
+      }
+      for (const tema of temas) {
+        const entry = result[tema.disciplinaId];
+        if (!entry) continue;
+        entry.total += 1;
+        if (tema.status === "concluida") entry.concluidos += 1;
+      }
+      return result;
+    },
+    [faseId],
+  );
+}
